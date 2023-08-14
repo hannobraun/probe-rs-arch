@@ -1,0 +1,5 @@
+post_upgrade() {
+    echo "Applying udev rules..."
+    udevadm control --reload
+    udevadm trigger
+}
