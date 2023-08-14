@@ -11,8 +11,9 @@ license=('MIT' 'Apache')
 depends=()
 makedepends=(cargo)
 
-source=("$pkgname-$pkgver.tar.gz::https://static.crates.io/crates/$pkgname/$pkgname-$pkgver.crate")
-sha256sums=('da6dec485ee49527950926fc3634980c7acb88b22dfb3b45b727ecc4d32e4298')
+source=("$pkgname-$pkgver.tar.gz::https://static.crates.io/crates/$pkgname/$pkgname-$pkgver.crate" "https://probe.rs/files/69-probe-rs.rules")
+sha256sums=('da6dec485ee49527950926fc3634980c7acb88b22dfb3b45b727ecc4d32e4298'
+            '3c1bc075031a29d5fb6ccce4ae76f923945a76b670fdb1e22146b100a70b7d95')
 
 prepare() {
     export RUSTUP_TOOLCHAIN=stable
@@ -31,5 +32,6 @@ build() {
 
 package() {
     cd "$pkgname-$pkgver"
-    install -Dm0755 -t "$pkgdir/usr/bin/" "target/release/$pkgname"
+    install -Dm755 -t "${pkgdir}/usr/bin/" "target/release/$pkgname"
+    install -Dm644 -t "${pkgdir}/etc/udev/rules.d/" "${srcdir}/69-probe-rs.rules"
 }
